@@ -13,14 +13,6 @@ describe('Page Title', () => {
     expect(about.find('h1.about-page-title').text()).toEqual('About Page');
   });
 
-
-    it('calls componentDidMount() lifecycle method', () => {
-        const componentDidMountSpy = expect.spyOn(About.prototype, 'componentDidMount');
-        const wrapper = mount(<About />);
-
-        assert.ok(Container.prototype.componentDidMount.calledOnce);
-
-        componentDidMountSpy.restore();
-    });  
+ 
 });
 
