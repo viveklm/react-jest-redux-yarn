@@ -1,6 +1,8 @@
-import React from 'react'
-
-
+import React from 'react';
+export const url = 'http://jsonplaceholder.typicode.com/posts'
+export const fetchData = () => {
+  return fetch(url);
+}
 export default class About extends React.Component {
   constructor() {
     super();
@@ -8,16 +10,20 @@ export default class About extends React.Component {
       persons: ''
     }
   }
+  
+  static defaultProps = { fetchData };
 
-  componentDidMount() {
-
+  componentDidMount = () => {
     var that = this;
-    var url = 'http://jsonplaceholder.typicode.com/posts'
-
-    fetch(url)
+    this.props.fetchData()
       .then(function (response) {
         if (response.status >= 400) {
-          throw new Error("Bad response from server");
+          try {
+            throw new Error("Bad response from server");
+          } catch (e) {
+            console.log(e)
+            return '';
+          }
         }
         return response.json();
       })
@@ -29,18 +35,18 @@ export default class About extends React.Component {
   }
 
   render() {
-      let content;
-      if (this.state.persons) {
-        content = this.state.persons.map((ele,key) => {
-         return <li key={key}> {this.state.persons[key].title}</li>;
-        })
-      } else { 
-        content = ''; // whatever you want it to be while waiting for data
-      }
+    let content;
+    if (this.state.persons) {
+      content = this.state.persons.map((ele, key) => {
+        return <li key={key}> {this.state.persons[key].title}</li>;
+      })
+    } else {
+      content = ''; // whatever you want it to be while waiting for data
+    }
     return (
       <div>
         <h1 className="about-page-title">About Page</h1>
-        {content}
+        <ul>{content}</ul>
       </div>
 
     );
